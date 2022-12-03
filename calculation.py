@@ -2,14 +2,15 @@ import matplotlib.pyplot as plt
 
 
 class contract_grid():
-    def __init__(self, High_value, Low_value, Grid_number, Multiple, Initial_value):
+    def __init__(self, High_value, Low_value, Grid_number, Multiple, Used_value, Initial_value):
         self.high_value = High_value
         self.low_value = Low_value
         self.grid_number = Grid_number
         self.multiple = Multiple
         self.initial_value = Initial_value
+        self.used_value = Used_value
         self.one_position_value = (
-            Initial_value * self.multiple * 2) / ((High_value + Low_value) * Grid_number)
+            Used_value * self.multiple * 2) / ((High_value + Low_value) * Grid_number)
         self.one_position_gap = (High_value - Low_value) / (Grid_number)
 
     def liquidate_calculation(self, Now_price):
@@ -32,8 +33,9 @@ class contract_grid():
 now_price_list = [i for i in range(50, 4000, 1)]
 grid_range = 400
 grid_numbers = 149
-multiple = 5
-initial_captial = 300
+multiple = 20
+initial_captial = 600
+used_captial = 300
 # ---------------End---------------
 x = []
 y_L = []
@@ -42,7 +44,7 @@ y_H = []
 y_H_g = []
 for now_price in now_price_list:
     ETHBUSD = contract_grid(High_value=now_price + grid_range, Low_value=now_price - grid_range,
-                            Grid_number=grid_numbers, Multiple=multiple, Initial_value=initial_captial)
+                            Grid_number=grid_numbers, Multiple=multiple, Initial_value=initial_captial, Used_value=used_captial)
     try:
         re = ETHBUSD.liquidate_calculation(now_price)
     except:
